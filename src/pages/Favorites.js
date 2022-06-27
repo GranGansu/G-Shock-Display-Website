@@ -9,7 +9,7 @@ export default function Favorites() {
         getFavorites(user, setFavoritos)
     }, [user])
     return (
-        <div>
+        <div id="favorites">
             <h1>Favoritos de {user}</h1>
             <p>Double-tap para borrar</p>
             <Relojes category={'favorites'} showFicha={false} jsonRelojes={favoritos} />

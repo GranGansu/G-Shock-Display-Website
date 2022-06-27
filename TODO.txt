@@ -1,2 +1,1 @@
-* multiples filtros
 * reset carga dos veces

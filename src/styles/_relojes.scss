@@ -45,3 +45,8 @@
         }
     }
 }
+#favorites {
+    .activo:hover {
+        cursor: no-drop;
+    }
+}

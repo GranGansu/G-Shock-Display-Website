@@ -21,43 +21,6 @@ export default function Relojes({
     const [relojes, setRelojes] = useState(new Map())
     const initialState = { evento: false };
 
-    /*   const funcion = (state, actiona) => {
-          const movilidad = 1
-          const clientWidth = refDisplay.current.clientWidth
-          const desplazamiento = window.innerWidth - clientWidth
-          const x = refDisplay.current.getBoundingClientRect().x
-          if (actiona.accion === 'siguiente') {
-              setLlave(prev => {
-                  if (prev < relojes.size - 1) {
-                      return prev + 1
-                  } else { return prev }
-              })
-              if (x - desplazamiento > 0)
-                  return { count: state.count - desplazamiento };
-          }
-          else if (actiona.accion === 'anterior') {
-              setLlave(prev => {
-                  if (prev !== 0) {
-                      return prev - 1
-                  } else {
-                      return prev
-                  }
-              })
-              return { count: state.count + 100 };
-          }
-          if (actiona.accion === 'mover') {
-              console.log('state: ' + state.anterior + ' movimiento:' + actiona.movimiento)
-              if (state.anterior > actiona.movimiento) {
-                  return { count: state.count - movilidad, anterior: actiona.movimiento + 1 }
-              } else {
-                  return { count: state.count + movilidad, anterior: actiona.movimiento - 1 }
-              }
-          } else {
-  
-          }
-          return { count: 0 };
-  
-      } */
     const funcion = (state, actiona) => {
         if (actiona.accion === 'siguiente') {
             setLlave(prev => {
@@ -112,14 +75,13 @@ export default function Relojes({
                 break
             default: break;
         }
-        
+
     }
     useEffect(() => {
         const array = new Map();
         setLlave(0)
         if (numerito.evento === false) {
             window.addEventListener('keyup', escuchador)
-            console.log('aqui')
         }
         dispatch({ evento: true })
         setCargando('lds-ring')
@@ -135,30 +97,36 @@ export default function Relojes({
                         //por cada reloj
                         if (state.size !== 0) {
                             if (reloj[1].funciones === undefined) {
-                                return
+                                return ''
                             }
                             // eslint-disable-next-line
+                            var contador = 0;
                             Object.entries(reloj[1].funciones).map((funcion) => {
-                                //las funciones deberían ser idénticas a state
-                                //por cada funcion
-                                /* console.log('state tiene ' + state.size) */
-                                if (Array.from(state)[0].includes(funcion[0].toUpperCase())) {
-                                    array.set(reloj[0], reloj[1])
-                                }
+                                if (Array.from(state).map((elemento) => {
+                                    if (elemento[0] === funcion[0].toUpperCase()) {
+                                        contador++
+                                    }
+                                    return elemento
+                                }))
+                                    if (contador === state.size) {
+                                        array.set(reloj[0], reloj[1])
+                                    }
+                                    return funcion
                             })
                         } else {
                             array.set(reloj[0], reloj[1])
                         }
+                        setRelojes(array)
+                        refCount.current = array.size
+                        return reloj
                     })
-                    setRelojes(array)
-                    refCount.current = array.size
                     if (array.size === 0) {
                         setSinResultados('')
                     }
                 }
-
             })
-    }, [category, state, jsonRelojes, url])
+            // eslint-disable-next-line
+    }, [category, state, jsonRelojes, url, numerito.evento])
 
     const next = (e) => {
         if (e.target.nodeName !== 'BUTTON') {
