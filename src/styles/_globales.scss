@@ -1,0 +1,42 @@
+.none {
+    display: none!important;
+}
+.activo {
+    font-weight: bold;
+    color: red;
+}
+.borrar {
+    border-radius: 5px;
+    font-weight: bold;
+    color: burlywood;
+    margin-left: 10px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+* {
+    font-family: Oswald;
+}
+button {
+    &:hover {
+        border: 2px solid violet;
+        cursor: pointer;
+    }
+    border-radius: 5px;
+    border: none;
+    border: 2px solid gainsboro;
+}
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.disabled {
+    background: gray;
+}

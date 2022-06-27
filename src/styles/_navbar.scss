@@ -1,0 +1,52 @@
+nav {
+    background-color: black;
+    span {
+        color: white;
+        margin-left: 5px;
+    }
+    div {
+        display: inline-block;
+        padding: 7px;
+        background: gainsboro;
+        @media (max-width: 768px) {
+            padding: 10px 0px;
+            width: 100%;
+        }
+        a {
+            &:last-child {
+                margin: 0;
+            }
+            color: #0033a5;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+    }
+    ul {
+        @media (max-width: 768px) {
+            padding: 10px 0px;
+            width: 100%;
+        }
+        a {
+            color: white;
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            &:last-child {
+                margin-right: 0px;
+            }
+            &:first-child {
+                font-weight: bold;
+                font-size: large;
+            }
+            &:hover {
+                color: red;
+                cursor: pointer;
+            }
+        }
+        margin: 0;
+        list-style: none;
+        padding: 5px;
+        display: inline-block;
+    }
+}

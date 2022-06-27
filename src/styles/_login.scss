@@ -1,0 +1,40 @@
+.login {
+    border: 1px solid gainsboro;
+    width: fit-content;
+    display: block;
+    margin: auto;
+    padding: 20px;
+    border-radius: 5px;
+    border-top: 10px solid;
+    background: white;
+    min-width: 300px;
+    p {
+        font-size: medium;
+        text-align: left;
+        color: red;
+        font-weight: bold;
+        animation:invalid;
+        animation-duration:0.1s;
+    }
+    input {
+        margin-bottom: 10px;
+        padding: 10px;
+        display: block;
+        border: 2px solid;
+        border-radius: 2px;
+        box-sizing: border-box;
+        width: 100%;
+        &[type="password"] {
+            color: #00800091;
+        }
+        &.rep {
+            margin-top: -12px;
+        }
+    }
+}
+.body {
+    background: url("/img/lock.jpg");
+    background-size: cover;
+    height: 100vh;
+    padding-top: 20px;
+}

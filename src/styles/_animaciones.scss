@@ -1,0 +1,62 @@
+@keyframes example {
+    from {
+        opacity: 10%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+@keyframes guardado {
+    0% {
+        opacity: 100%;
+    }
+    30% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 10%;
+    }
+}
+@keyframes examplee {
+    from {
+        top: -10px;
+    }
+    to {
+        top: 0px;
+    }
+}
+@keyframes ficha {
+    from {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes rotation {
+    from {
+        transform: rotate(3deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+@keyframes rotation {
+    from {
+        transform: rotate(3deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+@keyframes invalid {
+    0% {
+        margin-left: -10px;
+    }
+    50% {
+        margin-left: 10px;
+    }
+    100% {
+        margin-left: 0px;
+    }
+}
