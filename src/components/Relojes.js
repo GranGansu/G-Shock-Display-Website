@@ -19,21 +19,52 @@ export default function Relojes({
     const refNombre = useRef(null)
     const refDisplay = useRef(null)
     const [relojes, setRelojes] = useState(new Map())
-    const initialState = { count: 0 };
+    const initialState = { evento: false };
 
+    /*   const funcion = (state, actiona) => {
+          const movilidad = 1
+          const clientWidth = refDisplay.current.clientWidth
+          const desplazamiento = window.innerWidth - clientWidth
+          const x = refDisplay.current.getBoundingClientRect().x
+          if (actiona.accion === 'siguiente') {
+              setLlave(prev => {
+                  if (prev < relojes.size - 1) {
+                      return prev + 1
+                  } else { return prev }
+              })
+              if (x - desplazamiento > 0)
+                  return { count: state.count - desplazamiento };
+          }
+          else if (actiona.accion === 'anterior') {
+              setLlave(prev => {
+                  if (prev !== 0) {
+                      return prev - 1
+                  } else {
+                      return prev
+                  }
+              })
+              return { count: state.count + 100 };
+          }
+          if (actiona.accion === 'mover') {
+              console.log('state: ' + state.anterior + ' movimiento:' + actiona.movimiento)
+              if (state.anterior > actiona.movimiento) {
+                  return { count: state.count - movilidad, anterior: actiona.movimiento + 1 }
+              } else {
+                  return { count: state.count + movilidad, anterior: actiona.movimiento - 1 }
+              }
+          } else {
+  
+          }
+          return { count: 0 };
+  
+      } */
     const funcion = (state, actiona) => {
-        const movilidad = 1
-        const clientWidth = refDisplay.current.clientWidth
-        const desplazamiento = window.innerWidth - clientWidth
-        const x = refDisplay.current.getBoundingClientRect().x
         if (actiona.accion === 'siguiente') {
             setLlave(prev => {
                 if (prev < relojes.size - 1) {
                     return prev + 1
                 } else { return prev }
             })
-            if (x - desplazamiento > 0)
-                return { count: state.count - desplazamiento };
         }
         else if (actiona.accion === 'anterior') {
             setLlave(prev => {
@@ -43,19 +74,8 @@ export default function Relojes({
                     return prev
                 }
             })
-            return { count: state.count + 100 };
         }
-        if (actiona.accion === 'mover') {
-            console.log('state: ' + state.anterior + ' movimiento:' + actiona.movimiento)
-            if (state.anterior > actiona.movimiento) {
-                return { count: state.count - movilidad, anterior: actiona.movimiento + 1 }
-            } else {
-                return { count: state.count + movilidad, anterior: actiona.movimiento - 1 }
-            }
-        } else {
-
-        }
-        return { count: 0 };
+        return { evento: true };
 
     }
     const [numerito, dispatch] = useReducer(funcion, initialState)
@@ -82,33 +102,31 @@ export default function Relojes({
             default: return {}
         }
     }
+    const escuchador = (e) => {
+        switch (e.key) {
+            case 'ArrowRight':
+                dispatch({ accion: 'siguiente' })
+                break;
+            case 'ArrowLeft':
+                dispatch({ accion: 'anterior' })
+                break
+            default: break;
+        }
+        
+    }
     useEffect(() => {
         const array = new Map();
         setLlave(0)
-        window.addEventListener('keyup', (e) => {
-            switch (e.key) {
-                case 'ArrowRight':
-                    dispatch({ accion: 'siguiente' })
-                    break;
-                case 'ArrowLeft':
-                    dispatch({ accion: 'anterior' })
-                    break
-                default: break;
-            }
-
-        })
-        /*         refDisplay.current.addEventListener('touchmove', (e) => {
-                    const x = e.touches[0].clientX
-                    console.log(x)
-                    dispatch({ accion: 'mover', movimiento: x })
-                }) */
-
+        if (numerito.evento === false) {
+            window.addEventListener('keyup', escuchador)
+            console.log('aqui')
+        }
+        dispatch({ evento: true })
         setCargando('lds-ring')
         setSinResultados('none')
         setRelojes(new Map())
         axios.get(url)
             .then((res) => {
-                /* refNombre.current = null; */
                 setCargando('')
                 const categoria = setCategoria(res)
                 if (categoria !== undefined && categoria !== null) {
@@ -121,7 +139,9 @@ export default function Relojes({
                             }
                             // eslint-disable-next-line
                             Object.entries(reloj[1].funciones).map((funcion) => {
+                                //las funciones deberían ser idénticas a state
                                 //por cada funcion
+                                /* console.log('state tiene ' + state.size) */
                                 if (Array.from(state)[0].includes(funcion[0].toUpperCase())) {
                                     array.set(reloj[0], reloj[1])
                                 }
@@ -142,7 +162,7 @@ export default function Relojes({
 
     const next = (e) => {
         if (e.target.nodeName !== 'BUTTON') {
-            dispatch({ accion: e.target.attributes[1].value })
+            dispatch({ accion: e.target.attributes.name.value })
         } else {
             dispatch({ accion: e.target.className })
         }
