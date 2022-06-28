@@ -15,9 +15,7 @@ export default function Relojes({
     const { setReset } = useContext(ResetContext);
     const { state } = useContext(OpcionesContext);
     const [llave, setLlave] = useState(0)
-    const refCount = useRef(0)
     const refNombre = useRef(null)
-    const refDisplay = useRef(null)
     const [relojes, setRelojes] = useState(new Map())
     const initialState = { evento: false };
 
@@ -39,7 +37,6 @@ export default function Relojes({
             })
         }
         return { evento: true };
-
     }
     const [numerito, dispatch] = useReducer(funcion, initialState)
     const FichaCondicional = ({ arrayRelojes }) => {
@@ -90,34 +87,28 @@ export default function Relojes({
         axios.get(url)
             .then((res) => {
                 setCargando('')
-                const categoria = setCategoria(res)
-                if (categoria !== undefined && categoria !== null) {
+                const categoriaMap = setCategoria(res)
+                if (categoriaMap !== undefined && categoriaMap !== null) {
                     // eslint-disable-next-line
-                    Object.entries(categoria).map((reloj) => {
-                        //por cada reloj
-                        if (state.size !== 0) {
+                    Object.entries(categoriaMap).map((reloj) => { //por cada reloj
+                        if (state.size === 0) { //si no hay ninguna opción seleccionada
+                            array.set(reloj[0], reloj[1])
+                        } else {
                             if (reloj[1].funciones === undefined) {
                                 return ''
                             }
-                            // eslint-disable-next-line
                             var contador = 0;
-                            Object.entries(reloj[1].funciones).map((funcion) => {
-                                if (Array.from(state).map((elemento) => {
-                                    if (elemento[0] === funcion[0].toUpperCase()) {
-                                        contador++
-                                    }
-                                    return elemento
-                                }))
-                                    if (contador === state.size) {
-                                        array.set(reloj[0], reloj[1])
-                                    }
-                                    return funcion
+                            Object.entries(reloj[1].funciones).map((funcion) => {//por cada funcion
+                                if (state.has(funcion[0].toUpperCase())) {
+                                    contador++
+                                }
+                                return funcion
                             })
-                        } else {
-                            array.set(reloj[0], reloj[1])
+                            if (contador === state.size) {
+                                array.set(reloj[0], reloj[1])
+                            }
                         }
                         setRelojes(array)
-                        refCount.current = array.size
                         return reloj
                     })
                     if (array.size === 0) {
@@ -125,7 +116,7 @@ export default function Relojes({
                     }
                 }
             })
-            // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [category, state, jsonRelojes, url, numerito.evento])
 
     const next = (e) => {
@@ -138,16 +129,16 @@ export default function Relojes({
     const deleteFavorites = () => {
         deleteFavorite(refNombre.current)
     }
-    const resety = () => {
-        setReset('a')
+    const btnReset = () => {
+        setReset(Math.random())
     }
     return (
         <div className="relojes">
             <div className="justWatches">
                 <div className={cargando} ><div></div><div></div><div></div><div></div></div>
-                <span className={sinResultados}>Sin resultados <br></br><button onClick={resety}>RESET</button></span>
+                <span className={sinResultados}>Sin resultados <br></br><button onClick={btnReset}>RESET</button></span>
                 <button className='anterior' onClick={next}><i name="anterior" className="bi bi-arrow-left-circle"></i></button>
-                <div className='imagenes' ref={refDisplay} style={{ transform: `translate(0px, 0px)` }}>
+                <div className='imagenes' style={{ transform: `translate(0px, 0px)` }}>
                     {Array.from(relojes).map((elemento, key) => {
                         const imgURL = 'img/' + elemento[0] + '.png'
                         if (key === llave) {

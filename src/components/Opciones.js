@@ -4,7 +4,7 @@ import { ResetContext } from '../App'
 
 export default function Opciones({ formulario }) {
     const { dispatch } = useContext(OpcionesContext);
-    const { reset, setReset } = useContext(ResetContext);
+    const { reset } = useContext(ResetContext);
 
     const funciones = ['Bluetooth', 'Tough Solar', 'Step Tracker', 'Cronometro']
     const checkUncheck = (e) => {
@@ -21,8 +21,6 @@ export default function Opciones({ formulario }) {
             elemento.checked = false;
             dispatch({ 'casilla': elemento.value, 'verificado': false })
         })
-        setReset('')
-        //solo funciona la primera vez
     }
     useEffect(() => {
         borrarTodo()
